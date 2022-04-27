@@ -1,0 +1,10 @@
+{
+	"animations": 
+	[
+		{"name": "idle"},
+		{"name": "left"},
+		{"name": "right"}
+	],
+	"globalAnimationSpeed": 8,
+	"globalRepeating": true
+}

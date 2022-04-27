@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3DFB67CE-2EF6-47E2-9E11-9D1E5C35DFF5}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NES", "NES\NES.csproj", "{58A31B5E-A107-478D-B4E7-4ED90D656C4F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SNB", "SNB\SNB.csproj", "{D8A8025B-2538-4CA0-8EA8-CE625661DDF8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58A31B5E-A107-478D-B4E7-4ED90D656C4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58A31B5E-A107-478D-B4E7-4ED90D656C4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58A31B5E-A107-478D-B4E7-4ED90D656C4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58A31B5E-A107-478D-B4E7-4ED90D656C4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8A8025B-2538-4CA0-8EA8-CE625661DDF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8A8025B-2538-4CA0-8EA8-CE625661DDF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8A8025B-2538-4CA0-8EA8-CE625661DDF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8A8025B-2538-4CA0-8EA8-CE625661DDF8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{58A31B5E-A107-478D-B4E7-4ED90D656C4F} = {3DFB67CE-2EF6-47E2-9E11-9D1E5C35DFF5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5BDFA6FD-74F7-4529-A5F5-A1366C44562D}
+	EndGlobalSection
+EndGlobal

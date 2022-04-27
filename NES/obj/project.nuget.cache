@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "MlqZfig1DVr2gvX8N/a///7DI2DChIACjSDsgvXbxfJ4qSbgN/2MOXz+wqUSXGggLE2pdni2OKi5hQzyZhYk4A==",
+  "success": true,
+  "projectFilePath": "D:\\0-projects\\NES\\NES\\NES.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Noxmore\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\Noxmore\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\Noxmore\\.nuget\\packages\\raylib-cs\\3.7.0.1\\raylib-cs.3.7.0.1.nupkg.sha512",
+    "C:\\Users\\Noxmore\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
+    "C:\\Users\\Noxmore\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
+    "C:\\Users\\Noxmore\\.nuget\\packages\\system.resources.extensions\\6.0.0\\system.resources.extensions.6.0.0.nupkg.sha512",
+    "C:\\Users\\Noxmore\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

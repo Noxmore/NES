@@ -1,0 +1,8 @@
+{
+	"animations": 
+	[
+		{"name": "idle"},
+	],
+	"globalAnimationSpeed": 4,
+	"globalRepeating": true
+}

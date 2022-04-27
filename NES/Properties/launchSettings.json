@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Nes": {
+      "commandName": "Project",
+      "commandLineArgs": "\"D:\\0-projects\\NES\\SNB\\bin\\Debug\\net6.0\\SNB.dll\""
+    }
+  }
+}

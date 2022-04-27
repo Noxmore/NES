@@ -1,0 +1,31 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "43ff154e-3330-4b77-9e6f-bf96a0eee33e": {
+      "ProjectGuid": "43ff154e-3330-4b77-9e6f-bf96a0eee33e",
+      "DisplayName": "NES",
+      "ColorIndex": 0
+    },
+    "2f9bc1cc-dbc1-4168-b2a1-12885b3b1a26": {
+      "ProjectGuid": "2f9bc1cc-dbc1-4168-b2a1-12885b3b1a26",
+      "DisplayName": "SNB",
+      "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "d8a8025b-2538-4ca0-8ea8-ce625661ddf8": {
+      "ProjectGuid": "d8a8025b-2538-4ca0-8ea8-ce625661ddf8",
+      "DisplayName": "SNB",
+      "ColorIndex": 2
+    },
+    "58a31b5e-a107-478d-b4e7-4ed90d656c4f": {
+      "ProjectGuid": "58a31b5e-a107-478d-b4e7-4ed90d656c4f",
+      "DisplayName": "NES",
+      "ColorIndex": 3
+    }
+  },
+  "NextColorIndex": 4
+}

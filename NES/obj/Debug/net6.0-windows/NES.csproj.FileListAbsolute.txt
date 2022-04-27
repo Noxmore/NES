@@ -1,0 +1,14 @@
+D:\0-projects\NES\NES\obj\Debug\net6.0-windows\NES.csproj.AssemblyReference.cache
+D:\0-projects\NES\NES\obj\Debug\net6.0-windows\NES.Properties.Resources.resources
+D:\0-projects\NES\NES\obj\Debug\net6.0-windows\NES.csproj.GenerateResource.cache
+D:\0-projects\NES\NES\obj\Debug\net6.0-windows\NES.GeneratedMSBuildEditorConfig.editorconfig
+D:\0-projects\NES\NES\obj\Debug\net6.0-windows\NES.AssemblyInfoInputs.cache
+D:\0-projects\NES\NES\obj\Debug\net6.0-windows\NES.AssemblyInfo.cs
+D:\0-projects\NES\NES\obj\Debug\net6.0-windows\NES.csproj.CoreCompileInputs.cache
+D:\0-projects\NES\NES\bin\Debug\net6.0-windows\NES.deps.json
+D:\0-projects\NES\NES\bin\Debug\net6.0-windows\NES.dll
+D:\0-projects\NES\NES\bin\Debug\net6.0-windows\NES.pdb
+D:\0-projects\NES\NES\obj\Debug\net6.0-windows\NES.dll
+D:\0-projects\NES\NES\obj\Debug\net6.0-windows\refint\NES.dll
+D:\0-projects\NES\NES\obj\Debug\net6.0-windows\NES.pdb
+D:\0-projects\NES\NES\obj\Debug\net6.0-windows\ref\NES.dll

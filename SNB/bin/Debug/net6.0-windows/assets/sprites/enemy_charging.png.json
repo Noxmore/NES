@@ -1,0 +1,15 @@
+{
+	"animations": 
+	[
+		{
+			"name": "idle",
+			"speed": 2
+		},
+		{
+			"name": "charging",
+			"frameCount": 1
+		}
+	],
+	"globalAnimationSpeed": 1,
+	"globalRepeating": true
+}

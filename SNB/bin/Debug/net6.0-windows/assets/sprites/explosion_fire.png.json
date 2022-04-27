@@ -1,0 +1,8 @@
+{
+	"animations": 
+	[
+		{"name": "explode"}
+	],
+	"globalAnimationSpeed": 5,
+	"globalRepeating": false
+}

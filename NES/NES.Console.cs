@@ -29,6 +29,8 @@ namespace NES
 			/// <summary>If a smaller form of the console is visable on the ui, does not remove user input.</summary>
 			public static bool uiVisable = true;
 
+
+
 			/// <summary>The lines of text in the console.</summary>
 			public static List<(string, Color)> Lines { get; } = new();
 
@@ -39,14 +41,20 @@ namespace NES
 			/// <summary>The location of the input text cursor.</summary>
 			public static int cursor = 0;
 
+			/// <summary>How much the input string has scrolled on the x axis.</summary>
 			public static float inputScroll = 0;
 
+			/// <summary>How much the lines have been scrolled on the y axis.</summary>
 			public static float linesYScroll = 0;
 
+			/// <summary>How much the lines have been scrolled on the x axis.</summary>
 			public static float linesXScroll = 0;
 
 
+			/// <summary>How many lines can be rendered on-screen at a time.</summary>
 			public const int MAX_LINES_ON_SCREEN = 23;
+			/// <summary>How many charecters can be rendered on-screen at a time.</summary>
+			public const int MAX_INPUT_CHARS_ON_SCREEN = 42;
 
 
 			/// <summary>The previous commands typed into the console.</summary>
@@ -381,6 +389,12 @@ namespace NES
 
 				int inputTextY = ScreenHeight - 15;
 
+				// Cursor x scroll and clamping
+				cursor = cursor.Clamp(0, input.Length); // make sure the cursor does not go outside of the text
+
+				if (cursor > MAX_INPUT_CHARS_ON_SCREEN + inputScroll) inputScroll = cursor - MAX_INPUT_CHARS_ON_SCREEN;
+				else if (cursor < inputScroll) inputScroll = cursor;
+
 
 				// Some drawing
 
@@ -399,10 +413,10 @@ namespace NES
 					DrawText(line.Item1, 1 - (int)(6 * linesXScroll), 9 * (i - scroll), line.Item2, small: true);
 				}
 
-				DrawText(input, 1, inputTextY, Color.White, small: true); // draw input
+				DrawText(input, 1 - (int)(6 * inputScroll), inputTextY, Color.White, small: true); // draw input
 
-				cursor = cursor.Clamp(0, input.Length); // make sure the cursor does not go outside of the text
-				if (cursorTimingCounter < 0.5f) for (int i = 0; i < 6; i++) DrawPixel(6 * cursor, inputTextY + i, Color.White); // draw cursor
+				// draw cursor
+				if (cursorTimingCounter < 0.5f) for (int i = 0; i < 6; i++) DrawPixel((6 * cursor) - (int)(6 * inputScroll), inputTextY + i, Color.White); // draw cursor
 			}
 		}
 

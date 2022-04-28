@@ -63,10 +63,6 @@ namespace NES
 				cursor = input.Length; // set the cursor to the end
 			}
 
-
-			public static MemoryStream OutStream { get; } = new();
-			public static StreamWriter Out { get; } = new(OutStream);
-
 			public static bool open = false;
 
 			/// <summary>The lines of text in the console.</summary>

@@ -1,10 +1,8 @@
 ﻿Large TODO things:
-	Console
 	Add camera system and movement
 	Map Editor
 	Lighting
 	Physics of some kind?
 
 Smaller TODO things:
-	console history
 	console auto-correct

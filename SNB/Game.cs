@@ -10,7 +10,7 @@ namespace SNB
 		public static SnbGame game = null;
 
 
-		public override string Name => "Umbra Testing";
+		public override string Name => "NES Testing";
 
 
 		public Player player = new();

@@ -87,18 +87,6 @@ namespace NES
 			Raylib.SetTargetFPS(120);
 			Raylib.SetExitKey(Raylib_cs.KeyboardKey.KEY_VOLUME_UP);
 
-			System.Console.SetOut(Console.Out);
-
-			//Util.proccess.StartInfo.RedirectStandardOutput = true;
-
-			Util.proccess.OutputDataReceived += (sender, e) =>
-			{
-				string? line = e.Data;
-				if (line != null) Log(line);
-			};
-
-			//Util.proccess.BeginOutputReadLine();
-
 			// commands
 
 			Console.RegisterCommandsInType(typeof(DefaultCommands)); // Default commands
@@ -108,20 +96,6 @@ namespace NES
 
 			while (!Raylib.WindowShouldClose() && game != null && inited)
 			{
-				// handle stdout to nes console
-
-				//				string? line;
-				//				while ((line = Util.proccess.StandardOutput.ReadLine()) != null)
-				//					Log(line);
-
-				using (StreamReader sr = new StreamReader(Console.OutStream))
-				{
-					string? line;
-					while ((line = sr.ReadLine()) != null)
-						Log(line);
-				}
-
-
 				if (Console.openKey != null && IsKeyPressed(Console.openKey.Value))
 					Console.open = !Console.open;
 

@@ -168,7 +168,7 @@ namespace NES
 		public static Color GetPixel(int x, int y)
 		{
 			Raylib_cs.Color color = Renderer.image.GetPixel(x, y);
-			return Color.FromArgb(color.r, color.g, color.b, color.a);
+			return Color.FromArgb(color.a, color.r, color.g, color.b);
 		}
 
 
@@ -271,7 +271,7 @@ namespace NES
 		public static void DrawPixel(int x, int y, Color color) 
 		{ 
 			if (color.A == 255) Renderer.image.SetPixel(x, y, color.ToRaylibColor());
-			else Renderer.image.SetPixel(x, y, TintColor(Renderer.image.GetPixel(x, y).ToNesColor(), color).ToRaylibColor());
+			else Renderer.image.SetPixel(x, y, Renderer.image.GetPixel(x, y).ToNesColor().Lerp(color, (float)color.A / 255).ToRaylibColor());
 		}
 
 		/// <summary>
@@ -304,8 +304,8 @@ namespace NES
 			{
 				Bitmap chr = GetFontFileSprite(text[i] < fontBindings.Length ? text[i] : (char)0, small);
 
-				if (dropShadow != null) DrawBitmap(x + charX + 1, y + 1, chr, tint: dropShadow == Color.White ? null : dropShadow);
-				DrawBitmap(x + charX, y, chr, tint: color == Color.White ? null : color);
+				if (dropShadow != null) DrawBitmap(x + charX + 1, y + 1, chr, tint: dropShadow == Color.White ? null : dropShadow, tintAlpha: 1);
+				DrawBitmap(x + charX, y, chr, tint: color == Color.White ? null : color, tintAlpha: 1);
 				//Log((byte)text[i]);
 				charX += (small ? 6 : 8) + spacing;
 			}
@@ -319,13 +319,13 @@ namespace NES
 
 
 		/// <summary>Draws a Sprite to the NES screen.</summary>
-		public static void DrawSprite(Vector2 vector, Sprite sprite, SpriteTransform? transform = null, Color? tint = null) => DrawSprite((int)vector.X, (int)vector.Y, sprite, transform, tint);
+		public static void DrawSprite(Vector2 vector, Sprite sprite, SpriteTransform? transform = null, Color? tint = null, float tintAlpha = 0.5f) => DrawSprite((int)vector.X, (int)vector.Y, sprite, transform, tint, tintAlpha);
 
 		/// <summary>Draws a Sprite to the NES screen.</summary>
-		public static void DrawSprite(int x, int y, Sprite sprite, SpriteTransform? transform = null, Color? tint = null) => DrawBitmap(x, y, sprite.image, transform, tint);
+		public static void DrawSprite(int x, int y, Sprite sprite, SpriteTransform? transform = null, Color? tint = null, float tintAlpha = 0.5f) => DrawBitmap(x, y, sprite.image, transform, tint, tintAlpha);
 
 		/// <summary>Draws a Bitmap image to the NES screen.</summary>
-		public static void DrawBitmap(int x, int y, Bitmap image, SpriteTransform? transform = null, Color? tint = null, PixelEffect? pixelEffect = null)
+		public static void DrawBitmap(int x, int y, Bitmap image, SpriteTransform? transform = null, Color? tint = null, float tintAlpha = 0.5f /*PixelEffect? pixelEffect = null*/)
 		{
 			bool flipHorFlag = transform != null && transform.Value.horizontalFlip; // see if any axises need to be flipped
 			bool flipVerFlag = transform != null && transform.Value.verticalFlip;
@@ -340,17 +340,31 @@ namespace NES
 						Color color = image.GetPixel(x2, y2);
 						if (color.A > 0)
 						{
-							if (tint != null) color = TintColor(color, tint.Value); // tint if tint color specified
+							if (tint != null) color = TintColor(color, tint.Value, tintAlpha); // tint if tint color specified
 
 							DrawPixel(x + x1, y + y1, color);
-							if (pixelEffect != null) pixelEffect.Invoke(x, y, color);
+							//if (pixelEffect != null) pixelEffect.Invoke(x, y, color);
 						}
 					}
 		}
 
 
-		// there might be a better way to do this, but i don't know of it.
-		public static Color TintColor(Color color, Color tint) => Color.FromArgb(((int)color.A + (int)tint.A).Clamp(0, 255), (color.R + tint.R - 255).Clamp(0, 255), (color.G + tint.G - 255).Clamp(0, 255), (color.B + tint.B - 255).Clamp(0, 255));
+
+		/// <summary>
+		/// Tints a color with another one.
+		/// </summary>
+		/// <param name="source">The color to start with.</param>
+		/// <param name="tint">The color to tint it with.</param>
+		/// <param name="alpha">A value between 0 and 1 that represents the tint amount.</param>
+		/// <returns>source, but tinted by tint.</returns>
+		//public static Color TintColor(Color color, Color tint) => Color.FromArgb(((int)color.A + (int)tint.A).Clamp(0, 255), (color.R + tint.R - 255).Clamp(0, 255), (color.G + tint.G - 255).Clamp(0, 255), (color.B + tint.B - 255).Clamp(0, 255));
+		public static Color TintColor(Color source, Color tint, float alpha = 0.5f) => source.Lerp(tint, alpha);
+//		{
+//			int r = (int)((tint.R - source.R) * alpha + source.R);
+//			int g = (int)((tint.G - source.G) * alpha + source.G);
+//			int b = (int)((tint.B - source.B) * alpha + source.B);
+//			return Color.FromArgb(255, r, g, b);
+//		}
 
 
 

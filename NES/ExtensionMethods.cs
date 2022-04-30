@@ -57,20 +57,21 @@ namespace NES
 
 
 
-		public static float Lerp(this float firstFloat, float secondFloat, float by)
+		public static float Lerp(this float first, float second, float by)
 		{
-			return firstFloat * (1 - by) + secondFloat * by;
+			//return first * (1 - by) + second * by;
+			return first + (second - first) * by;
 		}
 
 
-		/*public static Color Lerp(this Color first, Color second, float by)
+		public static System.Drawing.Color Lerp(this System.Drawing.Color first, System.Drawing.Color second, float by)
 		{
-			float r = Lerp(first.r, second.r, by);
-			float g = Lerp(first.g, second.g, by);
-			float b = Lerp(first.b, second.b, by);
-			float a = Lerp(first.a, second.a, by);
-			return new Color((byte)r, (byte)g, (byte)b, (byte)a);
-		}*/
+			float r = Lerp(first.R, second.R, by);
+			float g = Lerp(first.G, second.G, by);
+			float b = Lerp(first.B, second.B, by);
+			float a = Lerp(first.A, second.A, by);
+			return System.Drawing.Color.FromArgb((int)a, (int)r, (int)g, (int)b);
+		}
 
 
 		public static Color ToRaylibColor(this System.Drawing.Color color)
@@ -80,7 +81,7 @@ namespace NES
 
 		public static System.Drawing.Color ToNesColor(this Color color)
 		{
-			return System.Drawing.Color.FromArgb(color.r, color.g, color.b, color.a);
+			return System.Drawing.Color.FromArgb(color.a, color.r, color.g, color.b);
 		}
 
 

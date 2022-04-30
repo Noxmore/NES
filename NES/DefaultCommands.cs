@@ -78,6 +78,14 @@ namespace NES
 		public static void print() => Nes.Log();
 
 
+		[ConsoleCommand("Sets the tooltip at the bottom of the screen.\nNote: \"time\" is measured in seconds.")]
+		public static void set_tooltip(string text, float time)
+		{
+			Nes.Console.tooltip = text;
+			Nes.Console.tooltipTimer = time;
+		}
+
+
 		[ConsoleCommand("Prints out the summary and usage information about a command.")]
 		public static void help([MultipleChoiceArg(DynamicCommandChoices.COMMANDS, false)] string commandName)
 		{

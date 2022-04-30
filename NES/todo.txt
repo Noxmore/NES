@@ -2,7 +2,8 @@
 	Add camera system and movement
 	Map Editor
 	Lighting
+	Transparent pixels DO NOT WORK
 	Physics of some kind?
 
 Smaller TODO things:
-	console auto-correct
+	console auto-correct is kinda screwed but i don't care at this point

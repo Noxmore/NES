@@ -30,6 +30,24 @@ namespace NES
 			public static bool uiVisable = true;
 
 
+				if (param.ParameterType == typeof(int)) try { return int.Parse(token); } catch (Exception) {} // throw new ArgumentException(commandString + " | argument " + i + " is not valid!");
+				else if (param.ParameterType == typeof(float)) try { return float.Parse(token); } catch (Exception) {}
+				else if (param.ParameterType == typeof(string))
+					try
+					{
+						foreach (Attribute attribute in param.GetCustomAttributes()) if (attribute is MultipleChoiceArgAttribute)
+							{
+								MultipleChoiceArgAttribute choiceAttribute = (MultipleChoiceArgAttribute)attribute;
+								if (!choiceAttribute.Choices.Contains(token) && choiceAttribute.ThrowsError) return null;
+							}
+						return token;
+					}
+					catch (Exception) { }
+				else if (param.ParameterType == typeof(bool)) try { return bool.Parse(token); } catch (Exception) {}
+
+				return null;
+			}
+
 
 			/// <summary>The lines of text in the console.</summary>
 			public static List<(string, Color)> Lines { get; } = new();
@@ -101,6 +119,7 @@ namespace NES
 			/// Executes a command from a string.
 			/// </summary>
 			/// <param name="commandString">The command + args to execute</param>
+			/// <returns>The object that the command executed returns, null if it returns void, or nothing.</returns>
 			public static object? Execute(string commandString)
 			{
 				commandString = commandString.ToUpper().Trim();
@@ -168,7 +187,7 @@ namespace NES
 			/// <summary>
 			/// Simple Lexer used internally for turing a command string into a list of tokens.
 			/// </summary>
-			public static string[] TokenizeCommandString(string command)
+			public static string[] TokenizeCommandString(string command, bool trimTokens = true)
 			{
 				List<string> tokens = new();
 
@@ -183,14 +202,19 @@ namespace NES
 					if (chr == '\"' || chr == '\'') inString = !inString;
 
 
+					string? token = null;
+
 					if (chr == ' ' && !inString)
 					{
-						tokens.Add(command.Substring(lastToken, i - lastToken).TrimStart().Replace("'", "").Replace("\"", "").Replace("\\N", "\n"));
+						token = command.Substring(lastToken, i - lastToken);
 
 						lastToken = i;
 					}
 
-					if (i == command.Length - 1) tokens.Add(command.Substring(lastToken).TrimStart().Replace("'", "").Replace("\"", "").Replace("\\N", "\n"));
+					else if (i == command.Length - 1) token = command.Substring(lastToken);
+
+
+					if (token != null) tokens.Add(trimTokens ? token.TrimStart().Replace("'", "").Replace("\"", "").Replace("\\N", "\n") : token);
 				}
 
 				return tokens.ToArray();
@@ -319,10 +343,17 @@ namespace NES
 
 				// COPY-PASTING // ===============================---------------------------------
 
-				else if (controlModifier)
+				else if (controlModifier && inNum == (int)KeyboardKey.C && input != "")
 				{
-					if (inNum == (int)KeyboardKey.C) Clipboard.SetText(input);
-					else if (inNum == (int)KeyboardKey.V) input = input.Insert(cursor, Clipboard.GetText());
+					Clipboard.SetText(input);
+					tooltip = "Input text copied to clipboard!";
+					tooltipTimer = 3;
+				}
+				else if (controlModifier && inNum == (int)KeyboardKey.V)
+				{
+					string text = Clipboard.GetText();
+					input = input.Insert(cursor, text);
+					cursor += text.Length;
 				}
 
 
@@ -346,9 +377,9 @@ namespace NES
 				// HISTORY // ===============================---------------------------------
 
 				else if (inNum == (int)KeyboardKey.UP)
-					{ if (browsingHistory || input == "") UpdateHistory(1); }
+				{ if (browsingHistory || input == "") UpdateHistory(1); }
 				else if (inNum == (int)KeyboardKey.DOWN)
-					{ if (browsingHistory || input == "") UpdateHistory(-1); }
+				{ if (browsingHistory || input == "") UpdateHistory(-1); }
 
 
 
@@ -371,6 +402,47 @@ namespace NES
 						}
 						catch (Exception e) { Log(/*e.GetType().Name + ": " + */e.Message, Color.Red); }
 						input = "";
+					}
+				}
+
+				else if (inNum == (int)KeyboardKey.TAB) // AUTOCOMPLETED // ===============================---------------------------------
+				{
+					string[] tokens = TokenizeCommandString(input);
+					int currentToken = GetCurrentToken();
+
+					// Remove past auto-completion lines.
+					if (autoCompleteLines >= 0 && autoCompleteLinesLength > 0) Lines.RemoveRange(autoCompleteLines, autoCompleteLinesLength);
+
+					autoCompleteLines = -1;
+					autoCompleteLinesLength = -1;
+
+
+					if (currentToken == 0) // command auto-completetion
+					{
+						List<string> lines = new();
+
+						foreach (MethodInfo command in Commands)
+						{
+							string name = command.Name.ToUpper();
+							if (!lines.Contains(name) && name.Contains(tokens[0])) lines.Add(command.Name);
+						}
+
+						lines.Sort();
+
+						if (lines.Count > 0)
+						{
+							input = lines[0];
+							cursor = input.Length;
+
+							autoCompleteLines = Lines.Count;
+							autoCompleteLinesLength = 0;
+						}
+
+						foreach (string line in lines) // print out the lines
+						{
+							autoCompleteLinesLength++;
+							Log("  " + line, Color.LightGray);
+						}
 					}
 				}
 
@@ -398,7 +470,7 @@ namespace NES
 
 				// Some drawing
 
-				DrawRectangle(0, ScreenHeight - 16, ScreenWidth, 16, Color.FromArgb(255, 40, 40, 40));
+				DrawRectangle(0, ScreenHeight - 16, ScreenWidth, 16, inputBoxColor);
 				//DrawRectangle(3, 3, ScreenWidth - 6, ScreenHeight - 30, Color.LightGray);
 
 				// Draw console lines
@@ -413,7 +485,19 @@ namespace NES
 					DrawText(line.Item1, 1 - (int)(6 * linesXScroll), 9 * (i - scroll), line.Item2, small: true);
 				}
 
-				DrawText(input, 1 - (int)(6 * inputScroll), inputTextY, Color.White, small: true); // draw input
+				// draw input
+				DrawText(input, 1 - (int)(6 * inputScroll), inputTextY, Color.White, small: true);
+
+				// draw tooltip and tooltip logic
+				//: Fix transparent pixels
+				//tooltip = tooltipColor.Lerp(inputBoxColor, tooltipTimer.ClampMax(tooltipFade) / tooltipFade).ToString();
+				//tooltip = Color.FromArgb((int)(tooltipTimer.ClampMax(tooltipFade) / tooltipFade * 255), tooltipColor).ToString();
+				//DrawText(tooltip, 1, inputTextY + 7, Color.FromArgb((int)(tooltipTimer.ClampMax(tooltipFade) / tooltipFade), tooltipColor), small: true);
+				DrawText(tooltip, 1, inputTextY + 7, tooltipColor, small: true);
+
+				tooltipTimer = (tooltipTimer - DeltaTime).ClampMin(0);
+				if (tooltipTimer == 0) tooltip = "";
+
 
 				// draw cursor
 				if (cursorTimingCounter < 0.5f) for (int i = 0; i < 6; i++) DrawPixel((6 * cursor) - (int)(6 * inputScroll), inputTextY + i, Color.White); // draw cursor
